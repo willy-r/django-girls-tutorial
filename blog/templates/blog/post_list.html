@@ -5,7 +5,7 @@
     <div class="post"> 
       <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
       <div class="date">
-	{{ post.published_at }}
+	{{ user.get_full_name }} • {{ post.published_at|date:"SHORT_DATE_FORMAT" }}
       </div>
       <hr>
       {{ post.body|linebreaks|truncatechars:250 }}

@@ -2,10 +2,11 @@
 
 {% block content %}
   <h2>Editando post: <a href="{% url 'post_detail' post.id %}" rel="prev">{{ post.title|truncatechars:25 }}</a></h2>
-  <form method="POST" class="post-form">
+  
+  <form action="{% url 'post_edit' post.id %}" method="POST" class="post-form">
     {% csrf_token %}
     {{ form.as_p }}
     
-    <button type="submit" class="save btn btn-light">Salvar</button>
+    <button type="submit" class="save btn btn-light"><i class="far fa-save"></i> Salvar alterações</button>
   </form>
 {% endblock %}

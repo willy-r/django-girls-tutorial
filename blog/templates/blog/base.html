@@ -9,6 +9,8 @@
 
     <title>Blog Django Girls</title>
 
+    <!-- Font Awesome v5 -->
+    <script src="https://kit.fontawesome.com/190e245c5e.js" crossorigin="anonymous"></script>
     <!-- Google Fonts: Lobster -->
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <!-- Bootstrap CSS -->
@@ -19,14 +21,10 @@
   <body>
     <div class="page-header">
       {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu">
-	  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-	    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-	  </svg>
-	</a>
+        <a href="{% url 'post_new' %}" class="top-menu"><i class="fas fa-plus"></i></a>
       {% endif %}
       <h1><a href="{% url 'post_list' %}"><em>Blog Django Girls</em></a></h1>
-      <p>Aqui você encontrará alguns posts sobre tecnologia.</p>
+      <p>Aqui você encontrará alguns posts sobre Python/Django.</p>
     </div>
 
     <div class="content container">
