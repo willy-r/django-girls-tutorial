@@ -1,17 +1,18 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+  <h1 style="text-align: center"><ins datetime="2021-01-06T15:47:27 -0300">Rascunhos</ins></h1>
   {% for post in posts %}
     <div class="post"> 
       <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
       <div class="date">
-	{{ post.author.get_full_name }} • {{ post.published_at|date:"SHORT_DATETIME_FORMAT" }}
+	{{ post.author.get_full_name }} • {{ post.create_at|date:"SHORT_DATETIME_FORMAT" }}
       </div>
       <hr>
       {{ post.body|linebreaks|truncatechars:250 }}
     </div>
   {% empty %}
-    <h2>Hm... Parece que ainda não há nenhum post por aqui.</h2>
+    <h2>Tudo limpo! Não há novos posts criados.</h2>
   {% endfor %}
 {% endblock %}
 

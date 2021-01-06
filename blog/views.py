@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -15,6 +14,16 @@ def post_list(request):
 
     context = {'posts': posts}
     return render(request, 'blog/post_list.html', context)
+
+
+def post_draft_list(request):
+    """Display all post that are drafts."""
+    posts = Post.objects.filter(
+        published_at__isnull=True
+    ).order_by('create_at')
+
+    context = {'posts': posts}
+    return render(request, 'blog/post_draft_list.html', context)
 
 
 def post_detail(request, post_id):
@@ -36,7 +45,7 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.publish()
+            post.save()
             return redirect('post_detail', post_id=post.id)
 
     context = {'form': form}
@@ -48,9 +57,6 @@ def post_edit(request, post_id):
     """Edits a post."""
     post = get_object_or_404(Post, pk=post_id)
 
-    if post.author != request.user:
-        raise Http404
-
     if request.method != 'POST':
         form = PostForm(instance=post)
     else:
@@ -59,7 +65,7 @@ def post_edit(request, post_id):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.publish()
+            post.save()
             return redirect('post_detail', post_id=post.id)
 
     context = {
@@ -67,3 +73,25 @@ def post_edit(request, post_id):
         'form': form
     }
     return render(request, 'blog/post_edit.html', context)
+
+
+@login_required
+def post_publish(request, post_id):
+    """Publishs a post."""
+    post = get_object_or_404(Post, pk=post_id)
+    post.publish()
+
+    return redirect('post_detail', post_id=post.id)
+
+
+@login_required
+def post_delete(request, post_id):
+    """Deletes a post."""
+    post = get_object_or_404(Post, pk=post_id)
+
+    if not post.published_at:
+        post.delete()
+        return redirect('post_draft_list')
+    else:
+        post.delete()
+        return redirect('post_list')
