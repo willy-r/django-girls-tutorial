@@ -9,7 +9,7 @@ class Post(models.Model):
                                on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     body = models.TextField()
-    create_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
     published_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
@@ -21,3 +21,21 @@ class Post(models.Model):
         self.published_at = timezone.now()
         # Update the post on db with the published date.
         self.save()
+
+
+class Comment(models.Model):
+    """A model for a comment in a post."""
+    post = models.ForeignKey(Post, related_name='comments',
+                             on_delete=models.CASCADE)
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        """String representation of a comment by text."""
+        if len(self.text) > 50:
+            return f'{self.text[:50]}...'
+        return self.text

@@ -14,10 +14,30 @@
       {% if post.published_at %}
         {{ post.published_at|date:"SHORT_DATETIME_FORMAT" }}
       {% else %}
-        {{ post.create_at|date:"SHORT_DATETIME_FORMAT" }}
+        {{ post.created_at|date:"SHORT_DATETIME_FORMAT" }}
       {% endif %}
     </div> 
     <hr>
     {{ post.body|linebreaks }}
   </div>
+  
+  {% if post.published_at %}
+    <hr>
+    <div class="d-grid gap-2">
+      <a href="{% url 'add_comment' post.id %}" class="btn" role="button" style="color: #C25100">Adicionar comentário <i class="fas fa-comments"></i></a>
+    </div>
+
+    {% for comment in post.comments.all %}
+      <div class="comment-section">
+	{% if user.is_authenticated %}
+	  <a href="{% url 'comment_delete' comment.id %}" class="btn btn-danger btn-sm save" role="button"><i class="far fa-trash-alt"></i></a>
+	{% endif %}
+        <i class="fas fa-user" style="color: #C25100"></i> <strong>{{ comment.author }}</strong> • <span class="date">{{ comment.created_at|date:"SHORT_DATETIME_FORMAT" }}</span>
+        {{ comment.text|linebreaks }}
+      </div>
+      <hr> 
+    {% empty %}
+      <h2>Seja o primeiro a comentar!</h2>
+    {% endfor %}
+  {% endif %}
 {% endblock %}

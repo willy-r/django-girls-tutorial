@@ -3,12 +3,15 @@
 {% block content %}
   {% for post in posts %}
     <div class="post"> 
-      <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+      <h2><a href="{% url 'post_detail' post.id %}" rel="next">{{ post.title }}</a></h2>
       <div class="date">
 	{{ post.author.get_full_name }} • {{ post.published_at|date:"SHORT_DATETIME_FORMAT" }}
       </div>
       <hr>
       {{ post.body|linebreaks|truncatechars:250 }}
+      <p>
+        <a href="{% url 'post_detail' post.id %}" rel="next" style="text-decoration: none"><i class="fas fa-comment-alt" style="color: #C25100"></i> {{ post.comments.count }}</a>
+      </p>
     </div>
   {% empty %}
     <h2>Hm... Parece que ainda não há nenhum post por aqui.</h2>

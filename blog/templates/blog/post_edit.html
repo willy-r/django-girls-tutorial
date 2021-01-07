@@ -6,8 +6,8 @@
   <form action="{% url 'post_edit' post.id %}" method="POST" class="post-form">
     {% csrf_token %}
     {{ form.as_p }}
-    
-    <button type="submit" class="btn btn-light"><i class="far fa-save"></i> Salvar alterações</button>
+   
     <a href="{% url 'post_delete' post.id %}" class="btn btn-danger save" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+    <button type="submit" class="btn btn-light"><i class="far fa-save"></i> Salvar alterações</button>
   </form>
 {% endblock %}
