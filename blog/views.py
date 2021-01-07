@@ -1,9 +1,10 @@
+from django.http import Http404
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 
 
 def post_list(request):
@@ -95,3 +96,36 @@ def post_delete(request, post_id):
     else:
         post.delete()
         return redirect('post_list')
+
+
+def add_comment(request, post_id):
+    """Adds a comment to a post."""
+    post = get_object_or_404(Post, pk=post_id)
+
+    if not post.published_at:
+        raise Http404
+
+    if request.method != 'POST':
+        form = CommentForm()
+    else:
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+
+    context = {
+        'post': post,
+        'form': form
+    }
+    return render(request, 'blog/add_comment.html', context)
+
+
+@login_required
+def comment_delete(request, comment_id):
+    """Deletes a comment from a post."""
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete()
+    return redirect('post_detail', post_id=comment.post.id)
