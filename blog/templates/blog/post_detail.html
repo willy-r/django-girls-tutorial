@@ -14,10 +14,20 @@
       {% if post.published_at %}
         {{ post.published_at|date:"SHORT_DATETIME_FORMAT" }}
       {% else %}
-        {{ post.create_at|date:"SHORT_DATETIME_FORMAT" }}
+        {{ post.created_at|date:"SHORT_DATETIME_FORMAT" }}
       {% endif %}
     </div> 
     <hr>
     {{ post.body|linebreaks }}
   </div>
+  <hr>
+  {% for comment in post.comments.all %}
+    <div class="comment-section">
+      <i class="fas fa-user" style="color: #C25100"></i> <strong>{{ comment.author }}</strong> • <span class="date">{{ comment.created_at|date:"SHORT_DATETIME_FORMAT" }}</span>
+      {{ comment.text|linebreaks }}
+    </div>
+    <hr>
+  {% empty %}
+    <h2>Ainda não há comentários. :(</h2>
+  {% endfor %}
 {% endblock %}

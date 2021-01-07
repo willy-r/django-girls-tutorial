@@ -20,7 +20,7 @@ def post_draft_list(request):
     """Display all post that are drafts."""
     posts = Post.objects.filter(
         published_at__isnull=True
-    ).order_by('create_at')
+    ).order_by('created_at')
 
     context = {'posts': posts}
     return render(request, 'blog/post_draft_list.html', context)

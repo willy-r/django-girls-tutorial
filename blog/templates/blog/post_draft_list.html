@@ -6,7 +6,7 @@
     <div class="post"> 
       <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
       <div class="date">
-	{{ post.author.get_full_name }} • {{ post.create_at|date:"SHORT_DATETIME_FORMAT" }}
+	{{ post.author.get_full_name }} • {{ post.created_at|date:"SHORT_DATETIME_FORMAT" }}
       </div>
       <hr>
       {{ post.body|linebreaks|truncatechars:250 }}
