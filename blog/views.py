@@ -31,6 +31,10 @@ def post_detail(request, post_id):
     """Display the full content of a specific post."""
     post = get_object_or_404(Post, pk=post_id)
 
+    if post.published_at:
+        # Count one view on that post.
+        post.add_view()
+
     context = {'post': post}
     return render(request, 'blog/post_detail.html', context)
 
