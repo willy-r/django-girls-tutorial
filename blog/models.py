@@ -11,6 +11,7 @@ class Post(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     published_at = models.DateTimeField(blank=True, null=True)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         """String representation of a post by title."""
@@ -21,6 +22,13 @@ class Post(models.Model):
         self.published_at = timezone.now()
         # Update the post on db with the published date.
         self.save()
+
+    def add_view(self):
+        """Adds a view on a post."""
+        self.views = models.F('views') + 1
+        # Save on db and refresh the object to access him.
+        self.save()
+        self.refresh_from_db()
 
 
 class Comment(models.Model):
