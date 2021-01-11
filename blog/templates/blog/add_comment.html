@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
   <h2>Adicionar comentário no post: <a href="{% url 'post_detail' post.id %}" rel="prev">{{ post.title|truncatechars:20 }}</a></h2>
