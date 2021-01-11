@@ -117,9 +117,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+FORMAT_MODULE_PATH = 'dg_blog.formats'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
+
+
+# Authentication.
+
+LOGOUT_REDIRECT_URL = 'post_list'

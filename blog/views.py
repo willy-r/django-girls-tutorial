@@ -93,12 +93,11 @@ def post_publish(request, post_id):
 def post_delete(request, post_id):
     """Deletes a post."""
     post = get_object_or_404(Post, pk=post_id)
+    post.delete()
 
     if not post.published_at:
-        post.delete()
         return redirect('post_draft_list')
     else:
-        post.delete()
         return redirect('post_list')
 
 
